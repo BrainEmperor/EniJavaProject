@@ -34,6 +34,11 @@ class clients
 	public void setId(int id) {
 		Id = id;
 	}
+	
+	public String getName()
+	{
+		return this.name;
+	}
 
 	public static void afficher_les_clients()
 	{
@@ -45,18 +50,24 @@ class clients
 	
 	public static void supprimer_client(int id)
 	{
-		if(id>=liste.size())
+	    supprimer_client(id, false);	
+	}
+	
+	public static void supprimer_client(int id, boolean print_status)
+	{
+		if(id>=liste.size() || id<0)
 			System.out.println("Aucun client n'a cet Id");
 		else 
 		{
+			if (print_status)
+				System.out.println(String.format("Client %s supprimé avec succès", liste.get(id).getName()));
 			liste.remove(id);
 			for(clients client : liste)
 				if(liste.indexOf(client)>=id)
 					client.setId(client.Id-1);
-			clients.nombre_de_clients--;
+			clients.nombre_de_clients--;			
 		}
-	}
-	
+	}		
 }
 
 public class Client {
@@ -92,15 +103,13 @@ public class Client {
 			    	break;
 			    case 3:
 			    	System.out.println("Id du client à supprimer ?");
-			    	clients.supprimer_client(eingabe.nextInt());
+			    	clients.supprimer_client(eingabe.nextInt(), true);
 			    	eingabe.nextLine();
 			    	break;
 			    default:
 			    	continue;
-			}
-						
+			}						
 		}
 		while(numMenu!=4);
 	}
-
 }
